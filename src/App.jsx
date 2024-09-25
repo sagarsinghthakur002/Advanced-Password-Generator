@@ -89,8 +89,7 @@ function App() {
         <div className="flex items-center gap-2 mb-6">
           <input
             type="checkbox"
-            checked={charAllowed}
-            onChange={(e) => setCharAllowed(e.target.checked)}
+            onChange={(e) => setCharAllowed((prev) => !prev)}
             className="cursor-pointer"
           />
           <label className="text-white">Allow Special Characters</label>
