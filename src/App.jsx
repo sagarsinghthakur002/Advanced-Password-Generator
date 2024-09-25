@@ -34,65 +34,66 @@ function App() {
   }, [length, numberAllowed, charAllowed]);
 
   return (
-    <>
-      <div className="w-full max-w-md mx-auto shadow-md rounded-lg px-4 my-8 text-orange-500 bg-gray-700">
-        <h1 className="text-white text-center my-3">Password Generator</h1>
+    <div className="min-h-screen flex flex-col justify-center items-center bg-gray-800">
+      <div className="w-full max-w-md bg-gray-700 shadow-md rounded-lg px-6 py-8 text-orange-500">
+        <h1 className="text-white text-center text-2xl font-bold mb-6">Password Generator</h1>
 
-        <div className="flex shadow rounded-lg overflow-hidden mb-4"></div>
+        <div className="flex items-center mb-4">
+          <input
+            type="text"
+            value={password}
+            className="outline-none w-full py-2 px-3 bg-gray-800 text-white rounded-md"
+            placeholder="Generated Password"
+            readOnly
+          />
+          <button
+            onClick={() => navigator.clipboard.writeText(password)}
+            className="ml-2 bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-800 transition duration-300"
+          >
+            Copy
+          </button>
+        </div>
 
-        <input
-          type="text"
-          value={password}
-          className="outline-none w-full py-1 px-3"
-          placeholder="password"
-          readOnly
-        />
-
-        <button
-          onClick={() => navigator.clipboard.writeText(password)} // Clipboard copy logic
-          className="outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0">
-          Copy
-        </button>
-      </div>
-
-      <div className="flex text-sm gap-x-2 ">
-        <div className="flex item-center gap-x-1">
+        <div className="flex items-center mb-4">
           <input
             type="range"
             min={6}
             max={100}
             value={length}
-            className="cursor-pointer"
-            onChange={(e) => setLength(e.target.value)} // Changed onClick to onChange
+            className="cursor-pointer w-full"
+            onChange={(e) => setLength(e.target.value)}
           />
-          <label> Length </label>
+          <span className="text-white ml-3">Length: {length}</span>
         </div>
-      </div>
 
-      <div className="flex item-center gap-x-1">
-        <input
-          type="checkbox"
-          checked={numberAllowed}
-          onChange={(e) => setNumberAllowed(e.target.checked)} // Checkbox for allowing numbers
-        />
-        <label> Allow Numbers </label>
-      </div>
+        <div className="flex items-center gap-2 mb-4">
+          <input
+            type="checkbox"
+            checked={numberAllowed}
+            onChange={(e) => setNumberAllowed(e.target.checked)}
+            className="cursor-pointer"
+          />
+          <label className="text-white">Allow Numbers</label>
+        </div>
 
-      <div className="flex item-center gap-x-1">
-        <input
-          type="checkbox"
-          checked={charAllowed}
-          onChange={(e) => setCharAllowed(e.target.checked)} // Checkbox for special characters
-        />
-        <label> Allow Special Characters </label>
-      </div>
+        <div className="flex items-center gap-2 mb-6">
+          <input
+            type="checkbox"
+            checked={charAllowed}
+            onChange={(e) => setCharAllowed(e.target.checked)}
+            className="cursor-pointer"
+          />
+          <label className="text-white">Allow Special Characters</label>
+        </div>
 
-      <button
-        onClick={PasswordGenerator}
-        className="outline-none bg-green-700 text-white px-3 py-0.5 shrink-0 mt-3">
-        Generate Password
-      </button>
-    </>
+        <button
+          onClick={PasswordGenerator}
+          className="w-full bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 transition duration-300"
+        >
+          Generate Password
+        </button>
+      </div>
+    </div>
   );
 }
 
