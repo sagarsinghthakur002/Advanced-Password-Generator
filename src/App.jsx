@@ -1,15 +1,17 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import './App.css';
 
 function App() {
-  const [length, setLength] = useState(8);
+  const [length, setLength] = useState(6);
   const [numberAllowed, setNumberAllowed] = useState(false);
   const [charAllowed, setCharAllowed] = useState(false);
   const [password, setPassword] = useState('');
+  
+  const passwordRef = useRef(null); // Password input ref
 
   const [form, setForm] = useState({ value: '' });
 
-  // Corrected handleForm function
+  // handleForm function
   const handleForm = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -26,12 +28,19 @@ function App() {
     }
 
     for (let i = 0; i < length; i++) {
-      const charIndex = Math.floor(Math.random() * str.length); // Corrected index calculation
+      const charIndex = Math.floor(Math.random() * str.length); // index calculation
       generatedPassword += str[charIndex];
     }
 
     setPassword(generatedPassword);
   }, [length, numberAllowed, charAllowed]);
+
+  const passwordMaker = useCallback(() => {
+    
+      passwordRef.current.select(); // Select password 
+      navigator.clipboard.writeText(password); // Copy password 
+    
+  }, [password]);
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-gray-800">
@@ -40,6 +49,7 @@ function App() {
 
         <div className="flex items-center mb-4">
           <input
+            ref={passwordRef} // useRef 
             type="text"
             value={password}
             className="outline-none w-full py-2 px-3 bg-gray-800 text-white rounded-md"
@@ -47,7 +57,7 @@ function App() {
             readOnly
           />
           <button
-            onClick={() => navigator.clipboard.writeText(password)}
+            onClick={passwordMaker}
             className="ml-2 bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-800 transition duration-300"
           >
             Copy
@@ -61,8 +71,8 @@ function App() {
             max={100}
             value={length}
             className="cursor-pointer w-full"
-            onChange={(e) => setLength(e.target.value)}
-          />
+            onChange={(e) => setLength(e.target.value)} 
+          /> 
           <span className="text-white ml-3">Length: {length}</span>
         </div>
 
